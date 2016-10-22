@@ -4,9 +4,11 @@
 
 #import socket module
 from socket import *
-import threading
+from threading import Thread
+import errno
 
 def handler(connectionSocket, addr):
+	#print("Thread Started")
 	try:
 		message = connectionSocket.recv(1024).decode()
 		filename = None
@@ -28,20 +30,24 @@ def handler(connectionSocket, addr):
 		connectionSocket.send(b'\r\n\r\n')
 		connectionSocket.close()
 
-	except IOError:
-		connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode('utf-8'))
-		connectionSocket.send("<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n".encode('utf-8'))
-		connectionSocket.close()
+	except IOError as e:
+		if e.errno == errno.EPIPE:
+			pass
+		else:
+			connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode('utf-8'))
+			connectionSocket.send("<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n".encode('utf-8'))
+			connectionSocket.close()
+	#print("Thread Closed")
 
 def main():
 	serverSocket = socket(AF_INET, SOCK_STREAM)
-	# Prepare a server socket
+	serverSocket.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 	serverSocket.bind(('', 6789))
-	serverSocket.listen(1)
+	serverSocket.listen(5)
 	while True:
 		print ("Ready to serve...")
 		connectionSocket, addr = serverSocket.accept()
-		thread = threading.Thread(target=handler, args=(connectionSocket, addr))
+		thread = Thread(target=handler, args=(connectionSocket, addr))
 		thread.start()
 
 	serverSocket.close()
