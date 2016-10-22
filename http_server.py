@@ -13,7 +13,7 @@ def handler(connectionSocket, addr):
 		if len(message.split()) > 1:
 			filename = message.split()[1]
 		else:
-			filename = 'index.html'
+			filename = '/index.html'
 		f = open(filename[1:], "rb") #TODO? Will fail if no file specified (should get index.html)
 
 		outputdata = f.read()
@@ -26,19 +26,16 @@ def handler(connectionSocket, addr):
 		for i in range(0,len(outputdata)):
 			connectionSocket.send(outputdata[i:i+1])
 		connectionSocket.send(b'\r\n\r\n')
-
-		f.close()
 		connectionSocket.close()
+
 	except IOError:
 		connectionSocket.send("HTTP/1.1 404 Not Found\r\n\r\n".encode('utf-8'))
 		connectionSocket.send("<html><head></head><body><h1>404 Not Found</h1></body></html>\r\n".encode('utf-8'))
-
-		f.close()
 		connectionSocket.close()
 
 def main():
 	serverSocket = socket(AF_INET, SOCK_STREAM)
-	# Prepare a sever socket
+	# Prepare a server socket
 	serverSocket.bind(('', 6789))
 	serverSocket.listen(1)
 	while True:
