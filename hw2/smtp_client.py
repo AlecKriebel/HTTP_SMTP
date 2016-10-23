@@ -1,3 +1,8 @@
+'''Submitted by:
+	Alec Kriebel (akriebel, #46541467)
+	Zachary Stuart (stuartz. #31362386)
+'''
+
 from socket import *
 
 msg = "\r\n I love computer networks!"
@@ -45,10 +50,10 @@ if recv1[:3] != '354':
 	print('250 reply not received from server.')
 
 # Send message data.
-clientSocket.send(msg)
+clientSocket.send('This is an email from a Python client.\r\n')
 
 # Message ends with a single period.
-clientSocket.send(endmsg)
+clientSocket.send('.\r\n')
 recv1 = clientSocket.recv(1024)
 print(recv1)
 if recv1[:3] != '250':

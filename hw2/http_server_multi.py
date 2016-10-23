@@ -1,6 +1,7 @@
-# Your EECS account information is:
-# Login:	akriebel
-# Password:	normal pword
+'''Submitted by:
+	Alec Kriebel (akriebel, #46541467)
+	Zachary Stuart (stuartz. #31362386)
+'''
 
 #import socket module
 from socket import *
@@ -16,13 +17,11 @@ def handler(connectionSocket, addr):
 			filename = message.split()[1]
 		else:
 			filename = '/index.html'
-		f = open(filename[1:], "rb") #TODO? Will fail if no file specified (should get index.html)
+		f = open(filename[1:], "rb")
 
 		outputdata = f.read()
 
 		connectionSocket.send('HTTP/1.1 200 OK\n'.encode('utf-8'))
-		connectionSocket.send('Content-Type: text/html\n'.encode('utf-8'))
-		connectionSocket.send('\n'.encode('utf-8'))
 
 		#Send the content of the requested file to the client
 		for i in range(0,len(outputdata)):
