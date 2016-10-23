@@ -1,0 +1,15 @@
+4.	They are sent as User Datagram Protocol (UDP)
+5.	The destination port is 53, and the response is port 59784
+6	The IP address for the DNS on Wireshark is 8.8.8.8, with the DNS servers matching with 8.8.8.8
+7.	The query type is a type A, class IN (seen under the DNS(Query) -> Queries tab), No Anwsers
+8.	3 Answers are under this response, with one being the CNAME, and the others being host addresses.
+
+11.	Destination: 53, Source 53
+12.	Destination: 8.8.8.8, This is the local DNS
+13.	Type A, Class IN ; No Answers
+14.	3, Two of them being CNAME, and one being a host address
+15. See Screenshot.png
+16.	8.8.8.8, yes this is my local DNS
+17.	The first set is PTR type, the next two sets are NS, The last one has an Authoratitive Name server.
+18.	mit.edu.uci.edu, and uci.edu are used as Authoratative Nameservers. (Possibly nsmaster.service.uci.edu)
+19.	See Screenshot 2.
